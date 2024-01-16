@@ -13,6 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 const pages = [
   { path: "/", name: "Home" },
@@ -20,9 +22,14 @@ const pages = [
   { path: "create", name: "Create Post" }
 
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Dashboard', 'Logout'];
 
 export const NavBar = () => {
+
+  const {user, logoutUser}= useContext(UserContext)
+
+  console.log(user);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -98,11 +105,12 @@ export const NavBar = () => {
                   <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{obj.name}</Typography>
                 </MenuItem>
-                </NavLink>
-                
+                </NavLink>               
               ))}
             </Menu>
           </Box>
+
+
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -124,17 +132,49 @@ export const NavBar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((obj) => (
-              <NavLink key={obj.name} to={obj.path}>
+              <NavLink key={obj.name} to={obj.path} 
+              className={({isActive})=>(isActive? 'active' : '')}
+              >
                 <Button
                   
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{ color: 'white', display: 'block' }}
                 >
                   {obj.name}
                 </Button>
               </NavLink>
             ))}
           </Box>
+
+
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+           
+              <NavLink to='signinup/up' className={({isActive})=>(isActive? 'active' : '')}>
+                <Button
+                  
+                  onClick={handleCloseNavMenu}
+                  sx={{ color: 'white', display: 'block' }}
+                >
+                  Sign Up
+                </Button>
+              </NavLink>
+            
+          </Box>
+
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+           
+              <NavLink to='signinup/in' className={({isActive})=>(isActive? 'active' : '')}>
+                <Button
+                  
+                  onClick={handleCloseNavMenu}
+                  sx={{ color: 'white', display: 'block' }}
+                >
+                  Sign In
+                </Button>
+              </NavLink>
+            
+          </Box>
+          
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
